@@ -60,6 +60,7 @@ class Settings:
     smtp_password: str
     smtp_from: str
     smtp_security: str
+    brevo_api_key: str
     allowed_origins: tuple[str, ...]
     rate_limit_enabled: bool
     bcrypt_rounds: int
@@ -110,6 +111,7 @@ def get_settings() -> Settings:
         smtp_password=os.getenv("SMTP_PASSWORD", ""),
         smtp_from=os.getenv("SMTP_FROM", "").strip(),
         smtp_security=os.getenv("SMTP_SECURITY", "starttls").strip().lower(),
+        brevo_api_key=os.getenv("BREVO_API_KEY", "").strip(),
         allowed_origins=origins,
         rate_limit_enabled=_get_bool("RATE_LIMIT_ENABLED", True),
         bcrypt_rounds=_get_int("BCRYPT_ROUNDS", 12, 4, 15),
@@ -123,15 +125,17 @@ def validate_settings(settings: Settings) -> None:
         problems.append(f"JWT_ALGORITHM debe ser uno de {sorted(ALLOWED_JWT_ALGORITHMS)}.")
     if len(settings.jwt_secret_key) < MIN_SECRET_LENGTH:
         problems.append(f"JWT_SECRET_KEY es obligatoria y debe tener al menos {MIN_SECRET_LENGTH} caracteres.")
-    if settings.email_backend not in {"smtp", "console"}:
-        problems.append("EMAIL_BACKEND debe ser 'smtp' o 'console'.")
+    if settings.email_backend not in {"smtp", "brevo", "console"}:
+        problems.append("EMAIL_BACKEND debe ser 'smtp', 'brevo' o 'console'.")
     if settings.smtp_security not in {"starttls", "ssl", "none"}:
         problems.append("SMTP_SECURITY debe ser 'starttls', 'ssl' o 'none'.")
     if settings.email_backend == "smtp" and not (settings.smtp_host and settings.smtp_from):
         problems.append("Con EMAIL_BACKEND=smtp se requieren SMTP_HOST y SMTP_FROM.")
+    if settings.email_backend == "brevo" and not (settings.brevo_api_key and settings.smtp_from):
+        problems.append("Con EMAIL_BACKEND=brevo se requieren BREVO_API_KEY y SMTP_FROM.")
     if settings.is_production:
-        if settings.email_backend != "smtp":
-            problems.append("En producción EMAIL_BACKEND debe ser 'smtp' (el OTP nunca se muestra en logs).")
+        if settings.email_backend not in {"smtp", "brevo"}:
+            problems.append("En producción EMAIL_BACKEND debe ser 'smtp' o 'brevo' (el OTP nunca se muestra en logs).")
         if settings.smtp_security == "none":
             problems.append("En producción SMTP_SECURITY no puede ser 'none'.")
         if "*" in settings.allowed_origins:

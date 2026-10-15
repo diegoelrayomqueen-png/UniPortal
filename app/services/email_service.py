@@ -2,10 +2,14 @@
 from __future__ import annotations
 
 import html
+import json
 import logging
 import smtplib
 import ssl
+import urllib.error
+import urllib.request
 from email.message import EmailMessage
+from email.utils import parseaddr
 
 from app.config import get_settings
 
@@ -51,6 +55,9 @@ def send_otp_email(to_email: str, full_name: str, code: str) -> None:
         logger.warning("[DESARROLLO] OTP para %s: %s", to_email, code)
         return
     message = build_otp_message(to_email, full_name, code)
+    if settings.email_backend == "brevo":
+        _send_via_brevo(message, to_email, full_name)
+        return
     context = ssl.create_default_context()
     try:
         if settings.smtp_security == "ssl":
@@ -65,4 +72,39 @@ def send_otp_email(to_email: str, full_name: str, code: str) -> None:
             server.send_message(message)
     except (smtplib.SMTPException, OSError) as exc:
         logger.error("Fallo al enviar correo OTP (%s)", type(exc).__name__)  # sin código ni credenciales
+        raise EmailDeliveryError("No se pudo enviar el correo.") from exc
+
+
+BREVO_URL = "https://api.brevo.com/v3/smtp/email"
+
+
+def _send_via_brevo(message: EmailMessage, to_email: str, full_name: str) -> None:
+    """Envía el correo por la API HTTPS de Brevo (puerto 443; Render no lo bloquea)."""
+    settings = get_settings()
+    sender_name, sender_email = parseaddr(settings.smtp_from)
+    text_part = message.get_body(preferencelist=("plain",))
+    html_part = message.get_body(preferencelist=("html",))
+    payload = {
+        "sender": {"name": sender_name or settings.portal_name, "email": sender_email},
+        "to": [{"email": to_email, "name": full_name}],
+        "subject": str(message["Subject"]),
+        "textContent": text_part.get_content() if text_part else "",
+        "htmlContent": html_part.get_content() if html_part else "",
+    }
+    request = urllib.request.Request(
+        BREVO_URL,
+        data=json.dumps(payload).encode("utf-8"),
+        headers={"api-key": settings.brevo_api_key, "content-type": "application/json", "accept": "application/json"},
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=SMTP_TIMEOUT_SECONDS) as response:
+            if response.status >= 300:
+                raise EmailDeliveryError("Brevo rechazó el envío.")
+    except urllib.error.HTTPError as exc:
+        detail = exc.read().decode("utf-8", "replace")[:300]
+        logger.error("Brevo respondió %s: %s", exc.code, detail)  # sin código OTP ni credenciales
+        raise EmailDeliveryError("No se pudo enviar el correo.") from exc
+    except (urllib.error.URLError, OSError) as exc:
+        logger.error("Fallo al enviar correo OTP por Brevo (%s)", type(exc).__name__)
         raise EmailDeliveryError("No se pudo enviar el correo.") from exc

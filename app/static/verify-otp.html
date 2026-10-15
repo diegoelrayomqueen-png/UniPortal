@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verificar código · UniPortal</title>
+<link rel="stylesheet" href="/css/styles.css">
+</head>
+<body data-page="verify">
+<div class="auth-layout">
+  <section class="auth-brand">
+    <a class="brand-mark" href="/"><span class="logo">U</span>UniPortal</a>
+    <div>
+      <h1>Tu identidad universitaria, protegida.</h1>
+      <p>Accede con tu contraseña y un código de verificación enviado a tu correo.</p>
+    </div>
+    <ul><li>Verificación en dos pasos</li><li>Sesiones que puedes cerrar en cualquier momento</li><li>Tus datos solo para ti</li></ul>
+  </section>
+  <section class="auth-panel">
+    <div class="auth-card">
+      <h2>Verifica tu identidad</h2>
+            <div id="alert" class="alert hidden" aria-live="polite"></div>
+      <p>Enviamos un código de 6 dígitos a <strong id="email-hint"></strong>. Vence pronto y solo se puede usar una vez.</p>
+      <form id="otp-form" novalidate>
+        <div class="field"><label for="code">Código de verificación</label><input id="code" class="otp-input" name="code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required></div>
+        <button id="submit" class="btn btn-primary btn-block" type="submit">Verificar y entrar</button>
+      </form>
+      <div class="actions-row"><button id="resend" class="btn btn-ghost btn-block" type="button">Reenviar código</button></div>
+      <p class="foot"><a href="/login.html">Volver al inicio de sesión</a></p>
+    </div>
+  </section>
+</div>
+<script src="/js/api.js"></script>
+<script src="/js/auth.js"></script>
+</body>
+</html>

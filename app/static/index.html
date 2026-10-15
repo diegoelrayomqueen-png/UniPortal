@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inicio · UniPortal</title>
+<link rel="stylesheet" href="/css/styles.css">
+</head>
+<body data-page="home">
+<header class="topbar">
+  <a class="brand-mark" href="/"><span class="logo">U</span>UniPortal</a>
+  <nav>
+    <a class="btn btn-ghost" data-guest href="/login.html">Iniciar sesión</a>
+    <a class="btn btn-accent" data-guest href="/register.html">Crear cuenta</a>
+    <a class="btn btn-accent hidden" data-user href="/dashboard.html">Ir a mi panel</a>
+  </nav>
+</header>
+<section class="hero">
+  <h1>El portal de estudiantes, seguro desde el primer acceso</h1>
+  <p>Gestiona tu perfil y controla la seguridad de tu cuenta con verificación en dos pasos y sesiones revocables.</p>
+  <div class="actions">
+    <a class="btn btn-accent" data-guest href="/register.html">Crear mi cuenta</a>
+    <a class="btn btn-ghost" data-guest href="/login.html">Ya tengo cuenta</a>
+    <a class="btn btn-accent hidden" data-user href="/dashboard.html">Continuar al panel</a>
+  </div>
+</section>
+<section class="container">
+  <div class="grid">
+    <article class="card"><h3>Verificación en dos pasos</h3><p class="muted">Después de tu contraseña, recibes un código de 6 dígitos por correo. Vence en minutos y solo sirve una vez.</p></article>
+    <article class="card"><h3>Sesiones revocables</h3><p class="muted">Al cerrar sesión, el servidor invalida tus tokens de inmediato: no basta con borrarlos del navegador.</p></article>
+    <article class="card"><h3>Perfil bajo tu control</h3><p class="muted">Consulta y actualiza tu información. Nadie más puede ver ni modificar tus datos.</p></article>
+  </div>
+</section>
+<footer class="footer">UniPortal · Documentación de la API en <a href="/docs">/docs</a></footer>
+<script src="/js/api.js"></script>
+<script src="/js/auth.js"></script>
+</body>
+</html>

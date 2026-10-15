@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panel · UniPortal</title>
+<link rel="stylesheet" href="/css/styles.css">
+</head>
+<body data-page="dashboard">
+<div class="shell">
+  <aside class="sidebar" id="sidebar" aria-label="Navegación principal">
+    <a class="brand-mark" href="/dashboard.html"><span class="logo">U</span>UniPortal</a>
+    <nav>
+      <a class="nav-link active" href="/dashboard.html" aria-current="page">Panel</a>
+      <a class="nav-link" href="/profile.html">Mi perfil</a>
+      <a class="nav-link" href="/security.html">Seguridad</a>
+    </nav>
+    <button class="nav-link" type="button" data-logout>Cerrar sesión</button>
+  </aside>
+  <div class="scrim"></div>
+  <div class="main">
+    <header class="header">
+      <button class="menu-btn" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Abrir menú">☰ Menú</button>
+      <span class="title">Portal de estudiantes</span>
+      <div class="user-chip"><span class="who small" id="user-name"><span class="skeleton"></span></span><span class="avatar" id="user-avatar" aria-hidden="true">…</span></div>
+    </header>
+    <main class="content">
+      <h1 id="welcome">Bienvenido</h1>
+      <p class="muted">Este es tu panel de estudiante.</p>
+      <div class="grid">
+        <section class="card" aria-labelledby="h-account">
+          <h2 id="h-account">Tu cuenta</h2>
+          <dl class="kv">
+            <dt>Nombre</dt><dd id="d-name"><span class="skeleton"></span></dd>
+            <dt>Correo</dt><dd id="d-email"><span class="skeleton"></span></dd>
+            <dt>Miembro desde</dt><dd id="d-since"><span class="skeleton"></span></dd>
+            <dt>Perfil actualizado</dt><dd id="d-updated"><span class="skeleton"></span></dd>
+          </dl>
+        </section>
+        <section class="card" aria-labelledby="h-sec">
+          <h2 id="h-sec">Seguridad <span class="badge ok">Protegida</span></h2>
+          <ul class="status-list">
+            <li><span>Verificación en dos pasos</span><span class="badge ok">Activa</span></li>
+            <li><span>Contraseña</span><span class="badge ok">Almacenada con hash</span></li>
+            <li><span>Sesión válida hasta</span><strong id="d-session">…</strong></li>
+          </ul>
+          <div class="actions-row"><a class="btn btn-ghost" href="/security.html">Administrar seguridad</a></div>
+        </section>
+        <section class="card" aria-labelledby="h-links">
+          <h2 id="h-links">Accesos rápidos</h2>
+          <div class="actions-row"><a class="btn btn-primary" href="/profile.html">Editar mi perfil</a><a class="btn btn-ghost" href="/security.html">Seguridad de la cuenta</a></div>
+        </section>
+      </div>
+      <h2 class="section-title">Servicios académicos</h2>
+      <div class="empty"><strong>Aún no hay servicios disponibles</strong>Este portal por ahora se enfoca en tu perfil y en la seguridad de tu cuenta.</div>
+    </main>
+  </div>
+</div>
+<script src="/js/api.js"></script>
+<script src="/js/layout.js"></script>
+<script src="/js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crear cuenta · UniPortal</title>
+<link rel="stylesheet" href="/css/styles.css">
+</head>
+<body data-page="register">
+<div class="auth-layout">
+  <section class="auth-brand">
+    <a class="brand-mark" href="/"><span class="logo">U</span>UniPortal</a>
+    <div>
+      <h1>Tu identidad universitaria, protegida.</h1>
+      <p>Accede con tu contraseña y un código de verificación enviado a tu correo.</p>
+    </div>
+    <ul><li>Verificación en dos pasos</li><li>Sesiones que puedes cerrar en cualquier momento</li><li>Tus datos solo para ti</li></ul>
+  </section>
+  <section class="auth-panel">
+    <div class="auth-card">
+      <h2>Crear cuenta</h2>
+      <p class="muted">Completa tus datos para registrarte.</p>
+      <div id="alert" class="alert hidden" aria-live="polite"></div>
+      <form id="register-form" novalidate>
+        <div class="field" id="f-name"><label for="name">Nombre completo</label><input id="name" name="name" type="text" autocomplete="name" maxlength="120" required><div class="field-error" aria-live="polite"></div></div>
+        <div class="field" id="f-email"><label for="email">Correo electrónico</label><input id="email" name="email" type="email" autocomplete="email" required><div class="field-error" aria-live="polite"></div></div>
+        <div class="field" id="f-pass"><label for="password">Contraseña</label><input id="password" name="password" type="password" autocomplete="new-password" required><ul class="rules" id="rules"></ul></div>
+        <div class="field" id="f-conf"><label for="confirm">Confirmar contraseña</label><input id="confirm" name="confirm" type="password" autocomplete="new-password" required><div class="field-error" aria-live="polite"></div></div>
+        <button id="submit" class="btn btn-primary btn-block" type="submit">Crear cuenta</button>
+      </form>
+      <p class="foot">¿Ya tienes cuenta? <a href="/login.html">Inicia sesión</a></p>
+    </div>
+  </section>
+</div>
+<script src="/js/api.js"></script>
+<script src="/js/auth.js"></script>
+</body>
+</html>

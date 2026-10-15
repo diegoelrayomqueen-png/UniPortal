@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seguridad · UniPortal</title>
+<link rel="stylesheet" href="/css/styles.css">
+</head>
+<body data-page="security">
+<div class="shell">
+  <aside class="sidebar" id="sidebar" aria-label="Navegación principal">
+    <a class="brand-mark" href="/dashboard.html"><span class="logo">U</span>UniPortal</a>
+    <nav>
+      <a class="nav-link" href="/dashboard.html">Panel</a>
+      <a class="nav-link" href="/profile.html">Mi perfil</a>
+      <a class="nav-link active" href="/security.html" aria-current="page">Seguridad</a>
+    </nav>
+    <button class="nav-link" type="button" data-logout>Cerrar sesión</button>
+  </aside>
+  <div class="scrim"></div>
+  <div class="main">
+    <header class="header">
+      <button class="menu-btn" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Abrir menú">☰ Menú</button>
+      <span class="title">Portal de estudiantes</span>
+      <div class="user-chip"><span class="who small" id="user-name"><span class="skeleton"></span></span><span class="avatar" id="user-avatar" aria-hidden="true">…</span></div>
+    </header>
+    <main class="content">
+      <h1>Seguridad de la cuenta</h1>
+      <p class="muted">Estado de tu sesión y de las protecciones activas para <strong id="s-email">…</strong>.</p>
+      <div id="alert" class="alert hidden" aria-live="polite"></div>
+      <div class="grid">
+        <section class="card">
+          <h2>Tu sesión actual</h2>
+          <ul class="status-list">
+            <li><span>Token de acceso vence</span><strong id="access-exp">…</strong></li>
+            <li><span>Sesión renovable hasta</span><strong id="refresh-exp">…</strong></li>
+          </ul>
+          <p class="hint">El token de acceso dura poco y se renueva solo mientras usas el portal.</p>
+          <div class="actions-row">
+            <button id="renew" class="btn btn-primary" type="button">Renovar sesión ahora</button>
+            <button class="btn btn-ghost" type="button" data-logout>Cerrar sesión</button>
+          </div>
+        </section>
+        <section class="card">
+          <h2>Protecciones activas</h2>
+          <ul class="status-list">
+            <li><span>Verificación en dos pasos (OTP por correo)</span><span class="badge ok">Activa</span></li>
+            <li><span>Contraseña guardada con bcrypt</span><span class="badge ok">Sí</span></li>
+            <li><span>Cierre de sesión revoca en el servidor</span><span class="badge ok">Sí</span></li>
+            <li><span>Límite de intentos y bloqueo temporal</span><span class="badge ok">Sí</span></li>
+          </ul>
+        </section>
+      </div>
+    </main>
+  </div>
+</div>
+<script src="/js/api.js"></script>
+<script src="/js/layout.js"></script>
+<script src="/js/security.js"></script>
+</body>
+</html>

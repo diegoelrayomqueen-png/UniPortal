@@ -1,0 +1,38 @@
+# Blueprint de Render. Plan "starter" + disco persistente: es lo mínimo para que
+#  (1) SQLite conserve los datos entre despliegues y (2) los puertos SMTP 465/587 estén permitidos
+#      (los servicios gratuitos de Render los bloquean desde septiembre de 2025). Ver README.
+services:
+  - type: web
+    name: uniportal
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: ./start.sh
+    healthCheckPath: /health
+    disk:
+      name: uniportal-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.3
+      - key: ENVIRONMENT
+        value: production
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        value: sqlite:////var/data/uniportal.db
+      - key: EMAIL_BACKEND
+        value: smtp
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_SECURITY
+        value: starttls
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: SMTP_FROM
+        sync: false
